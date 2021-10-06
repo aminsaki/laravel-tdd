@@ -5,23 +5,16 @@ namespace Tests\Feature\Models;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, ModelHelperTesting;
 
-    public function test_insert_date_to_datebase()
-    {
-        $comments = Comment::factory()->make()->toArray();
 
-        Comment::create($comments);
-
-        $this->assertDatabaseHas('comments', $comments);
-
-    }
     /// hisMane To hisMane
     public function test_comment_Relation_ship_with_post()
     {
@@ -47,5 +40,12 @@ class CommentTest extends TestCase
 
         $this->assertTrue($comment->user instanceof User);
 
+    }
+    /**
+     * @return Model
+     */
+    protected function model(): Model
+    {
+        return  new Comment();
     }
 }

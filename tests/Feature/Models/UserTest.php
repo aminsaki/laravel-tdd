@@ -5,37 +5,27 @@ namespace Tests\Feature\Models;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+
+
     #/ empty datebase  for test
-    use RefreshDatabase;
+    use RefreshDatabase, ModelHelperTesting;
+
 
     /**
-     *  this is count  row into database
+     * @return Model
      */
-    public function test_insert_database()
+    protected function model(): Model
     {
-        # create users fack  in database
-        //User::factory()->create();
-
-        ///check count row  into  database
-        //$this->assertDatabaseCount('users','1');
-
-        /**************************************************************************/
-
-        /// feact  col database  feact to vareble users
-        $user = User::factory()->make()->toArray();
-        $user['password'] = 123456;
-        /// save to datebase
-        User::create($user);
-        /// check date insert  for date  datebase
-        $this->assertDatabaseHas('users', $user);
-
+        return new User();
     }
+
 
     /// relation  for  one ot hasMane
     public function test_users_Relation_ship_with_posts()
@@ -60,4 +50,29 @@ class UserTest extends TestCase
         $this->assertTrue($user->comments->first() instanceof Comment);
 
     }
+
+
+
+        //    /**
+        //     *  this is count  row into database
+        //     */
+        //    public function test_insert_database()
+        //    {
+        //        # create users fack  in database
+        //        //User::factory()->create();
+        //
+        //        ///check count row  into  database
+        //        //$this->assertDatabaseCount('users','1');
+        //
+        //        /**************************************************************************/
+        //
+        //        /// feact  col database  feact to vareble users
+        //        $user = User::factory()->make()->toArray();
+        //        $user['password'] = 123456;
+        //        /// save to datebase
+        //        User::create($user);
+        //        /// check date insert  for date  datebase
+        //        $this->assertDatabaseHas('users', $user);
+        //
+        //    }
 }
