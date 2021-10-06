@@ -6,27 +6,15 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PostTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase , ModelHelperTesting;
 
-    /**
-     *
-     */
-    public function test_insert_date_to_datebase()
-    {
 
-        $post = Post::factory()->make()->toArray();
-
-        Post::create($post);
-
-        $this->assertDatabaseHas('posts', $post);
-
-    }
 
     /// relation  for  one ot blaneTo
     public function test_Post_Relation_ship_with_user()
@@ -42,7 +30,7 @@ class PostTest extends TestCase
       /// hisMane To hisMane
     public function test_Post_Relation_ship_with_tag()
     {
-       $conut = rand(1, 10);
+        $conut = rand(1, 10);
 
         $post = Post::factory()->hasTags($conut)->create();
 
@@ -64,7 +52,8 @@ class PostTest extends TestCase
     }
 
 
-
-
-
+    protected function model(): Model
+    {
+       return  new Post();
+    }
 }
