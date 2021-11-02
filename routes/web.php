@@ -1,7 +1,9 @@
 <?php
+
 use App\Http\Controllers as Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin as Admin;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,15 +25,22 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('/single/{post}/comment', [Controller\SingleController::class, 'comment'])->name('single.comment');
     ///  method test  Ajax
     Route::post('/singleAjax/{post}/comment', [Controller\SingleController::class, 'commenteAjax'])->name('singleAjax.comment');
-
 });
 
-# panel Admin
-Route::get('admin/post/index' ,[Admin\PostController::class ,'index'])->name('post.index');
-Route::get('admin/post/create' ,[Admin\PostController::class ,'create'])->name('post.create');
-Route::get('admin/post/edit/{post}' ,[Admin\PostController::class ,'edit'])->name('post.edit');
-Route::get('admin/post/delete/{post}' ,[Admin\PostController::class ,'destroy'])->name('post.delete');
-Route::post('admin/post/store' ,[Admin\PostController::class ,'store'])->name('post.store');
+///admin
+Route::prefix('admin')->middleware('admin')->group(function () {
+    # panel Admin
+    Route::get('post/index', [Admin\PostController::class, 'index'])->name('post.index');
+    Route::get('post/create', [Admin\PostController::class, 'create'])->name('post.create');
+    Route::get('post/edit/{post}', [Admin\PostController::class, 'edit'])->name('post.edit');
+    Route::get('post/delete/{post}', [Admin\PostController::class, 'destroy'])->name('post.delete');
+    Route::post('post/store', [Admin\PostController::class, 'store'])->name('post.store');
+    Route::post('post/update', [Admin\PostController::class, 'update'])->name('post.update');
+    Route::get('post/show/{id}', [Admin\PostController::class, 'show'])->name('post.show');
+
+
+
+});
 
 
 
